@@ -9,6 +9,16 @@ frontend/node_modules/
 frontend/dist/
 frontend/.vite/
 
+# --- secrets & local config ---
+# Real application.properties contains MySQL creds + JWT secret.
+# Use application.properties.example as a template.
+backend/src/main/resources/application.properties
+**/application-local.properties
+.env
+.env.local
+*.pem
+*.key
+
 # --- puku ai scratch ---
 .puku/
 
