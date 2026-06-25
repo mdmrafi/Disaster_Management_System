@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getToken } from '../auth/auth.js';
 
 /**
  * Shared Axios instance.
@@ -11,6 +12,21 @@ const client = axios.create({
   baseURL: '/api',
   headers: { 'Content-Type': 'application/json' },
   timeout: 15000,
+});
+
+/* ---------- Request interceptor ----------
+ * Attach the JWT (if any) to every outbound request except /auth/login.
+ * `getToken()` reads from localStorage on each call so a login that happens
+ * after the client was created is picked up automatically.
+ */
+client.interceptors.request.use((config) => {
+  const token = getToken();
+  const url = config.url || '';
+  if (token && !url.includes('/auth/login')) {
+    config.headers = config.headers || {};
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 /* ---------- Response interceptor ----------

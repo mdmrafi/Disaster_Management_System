@@ -1,0 +1,20 @@
+# --- build artifacts ---
+backend/target/
+backend/run.log
+backend/run.log.err
+backend/.mvn/wrapper/maven-wrapper.jar
+
+# --- node ---
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# --- puku ai scratch ---
+.puku/
+
+# --- OS / editor ---
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/
+*.iml

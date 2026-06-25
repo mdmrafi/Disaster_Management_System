@@ -28,4 +28,7 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
                    "WHERE resource_id = :resourceId",
            nativeQuery = true)
     int applyAllocationDelta(@Param("resourceId") Long resourceId, @Param("qty") int qty);
+
+    @Query("SELECT COALESCE(SUM(r.availableQuantity), 0) FROM Resource r")
+    long sumAvailableQuantity();
 }

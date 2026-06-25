@@ -9,6 +9,7 @@ public class VolunteerResponse {
     private Long volunteerId;
     private String name;
     private String phone;
+    private String email;
     private Specialization specialization;
     private AvailabilityStatus availabilityStatus;
 }

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard - Resilience Command</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "primary-fixed-dim": "#bcc7de",
+                            "on-tertiary": "#ffffff",
+                            "secondary-container": "#e02928",
+                            "secondary": "#bb0112",
+                            "tertiary-container": "#003013",
+                            "inverse-on-surface": "#eaf1ff",
+                            "surface-bright": "#f8f9ff",
+                            "on-secondary-fixed": "#410002",
+                            "primary-fixed": "#d8e3fb",
+                            "surface-variant": "#d3e4fe",
+                            "on-secondary-fixed-variant": "#93000b",
+                            "on-background": "#0b1c30",
+                            "on-tertiary-fixed": "#00210b",
+                            "tertiary-fixed": "#a6f4b5",
+                            "tertiary-fixed-dim": "#8bd79b",
+                            "on-tertiary-container": "#559f67",
+                            "surface-container-lowest": "#ffffff",
+                            "secondary-fixed-dim": "#ffb4ab",
+                            "on-surface-variant": "#45474c",
+                            "on-tertiary-fixed-variant": "#005226",
+                            "surface-container": "#e5eeff",
+                            "surface-container-low": "#eff4ff",
+                            "surface-container-high": "#dce9ff",
+                            "on-primary": "#ffffff",
+                            "on-primary-fixed": "#111c2d",
+                            "surface-container-highest": "#d3e4fe",
+                            "primary-container": "#1e293b",
+                            "surface-tint": "#545f73",
+                            "on-error": "#ffffff",
+                            "on-surface": "#0b1c30",
+                            "background": "#f8f9ff",
+                            "error-container": "#ffdad6",
+                            "primary": "#091426",
+                            "surface-dim": "#cbdbf5",
+                            "outline": "#75777d",
+                            "error": "#ba1a1a",
+                            "outline-variant": "#c5c6cd",
+                            "on-secondary": "#ffffff",
+                            "on-secondary-container": "#fffbff",
+                            "on-error-container": "#93000a",
+                            "on-primary-container": "#8590a6",
+                            "inverse-primary": "#bcc7de",
+                            "tertiary": "#001907",
+                            "secondary-fixed": "#ffdad6",
+                            "inverse-surface": "#213145",
+                            "on-primary-fixed-variant": "#3c475a",
+                            "surface": "#f8f9ff"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.125rem",
+                            "lg": "0.25rem",
+                            "xl": "0.5rem",
+                            "full": "0.75rem"
+                    },
+                    "spacing": {
+                            "sm": "8px",
+                            "xl": "32px",
+                            "base": "4px",
+                            "xs": "4px",
+                            "2xl": "48px",
+                            "gutter": "16px",
+                            "md": "16px",
+                            "margin": "24px",
+                            "lg": "24px"
+                    },
+                    "fontFamily": {
+                            "display-lg": ["Inter"],
+                            "label-md": ["JetBrains Mono"],
+                            "label-sm": ["JetBrains Mono"],
+                            "body-lg": ["Inter"],
+                            "headline-lg": ["Inter"],
+                            "body-md": ["Inter"],
+                            "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                            "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                            "label-sm": ["10px", { "lineHeight": "14px", "fontWeight": "600" }],
+                            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                            "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                            "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased overflow-hidden flex h-screen">
+<!-- SideNavBar -->
+<nav class="bg-surface-container dark:bg-surface-container-lowest text-primary dark:text-primary-fixed-dim font-label-md text-label-md fixed left-0 top-0 h-full w-[280px] border-r border-outline-variant dark:border-outline flat no shadows flex flex-col py-lg px-md overflow-y-auto hidden md:flex z-40">
+<div class="mb-xl flex items-center gap-sm">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-on-primary font-bold">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm font-black text-primary leading-tight">Command Center</div>
+<div class="text-on-surface-variant font-label-sm text-label-sm">Operational Oversight</div>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-xs">
+<a class="text-primary dark:text-on-primary-container bg-surface-container-highest dark:bg-primary-container font-bold flex items-center gap-sm px-sm py-sm rounded-DEFAULT scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all flex items-center gap-sm px-sm py-sm rounded-DEFAULT scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+<span>Disasters</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all flex items-center gap-sm px-sm py-sm rounded-DEFAULT scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span>Affected Areas</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all flex items-center gap-sm px-sm py-sm rounded-DEFAULT scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="home_work">home_work</span>
+<span>Relief Camps</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all flex items-center gap-sm px-sm py-sm rounded-DEFAULT scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="person_pin_circle">person_pin_circle</span>
+<span>Victims</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all flex items-center gap-sm px-sm py-sm rounded-DEFAULT scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Volunteers</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all flex items-center gap-sm px-sm py-sm rounded-DEFAULT scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>Resources</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all flex items-center gap-sm px-sm py-sm rounded-DEFAULT scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="volunteer_activism">volunteer_activism</span>
+<span>Donations</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all flex items-center gap-sm px-sm py-sm rounded-DEFAULT scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+<span>Allocations</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all flex items-center gap-sm px-sm py-sm rounded-DEFAULT scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="report_problem">report_problem</span>
+<span>Shortages</span>
+</a>
+</div>
+<div class="mt-auto flex flex-col gap-xs pt-md border-t border-outline-variant">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all flex items-center gap-sm px-sm py-sm rounded-DEFAULT scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>Support</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all flex items-center gap-sm px-sm py-sm rounded-DEFAULT scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-[280px] h-screen overflow-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-dim text-primary dark:text-primary-fixed-dim font-body-md text-body-md docked full-width top-0 border-b border-outline-variant dark:border-outline flat no shadows flex justify-between items-center w-full px-margin h-16 z-50 shrink-0">
+<div class="flex items-center gap-margin">
+<!-- Mobile Menu Trigger -->
+<button class="md:hidden text-on-surface-variant cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">Resilience Command</div>
+</div>
+<div class="flex-1 max-w-md mx-margin hidden sm:block">
+<div class="relative flex items-center w-full h-10 rounded-DEFAULT bg-surface-container border border-outline-variant focus-within:border-primary transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant absolute left-sm">search</span>
+<input class="w-full h-full pl-xl pr-sm bg-transparent border-none focus:ring-0 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant outline-none" placeholder="Search commands, resources..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80 hidden sm:flex">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary-container border border-outline-variant ml-sm overflow-hidden flex-shrink-0 cursor-pointer">
+<img alt="Chief Coordinator Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a Chief Coordinator in a command center environment. Soft, authoritative lighting. Clean, modern aesthetic. Deep blues and whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfPibBEfVXJ3bEA9rkr3dJn5ZjrEw1FjY5MfUlUwreNNx4P9AG4ZrPOVdT7DUENE9kTxfmyU6u-kYvTMC3YIAF3yZIV3bybhcDFPRMYe-zSX8g1fwC-B1mV52FDCRkPZKF0KZt0QlISkeuz4TxaX0znDO0We9I2YE-7bZXKu5yXtArFGs0f12qIV7T44ohqWZntn7_LoiKMLRwCH8j_G_7YiAMjq3lR4VFkMrv-x70Tb7aIE6KnSndoOPvStMlnL96Bys4i-3Dk-Wu"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 overflow-y-auto p-margin md:p-xl bg-background">
+<div class="max-w-[1440px] mx-auto flex flex-col gap-xl">
+<!-- Page Header -->
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-background mb-xs">Operational Dashboard</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Real-time overview of disaster response and resource allocation.</p>
+</div>
+<!-- Metrics Bento -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
+<!-- Metric Card 1 -->
+<div class="bg-surface border border-outline-variant rounded-lg p-md flex flex-col justify-between hover:bg-surface-bright transition-colors cursor-default relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-secondary/5 rounded-full blur-xl pointer-events-none"></div>
+<div class="flex justify-between items-start mb-sm">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Active Disasters</span>
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="flex items-end gap-sm">
+<span class="font-display-lg text-display-lg text-on-surface">3</span>
+<span class="flex items-center text-error font-label-md text-label-md mb-xs">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                                +1 since yesterday
+                            </span>
+</div>
+</div>
+<!-- Metric Card 2 -->
+<div class="bg-surface border border-outline-variant rounded-lg p-md flex flex-col justify-between hover:bg-surface-bright transition-colors cursor-default">
+<div class="flex justify-between items-start mb-sm">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Victims</span>
+<span class="material-symbols-outlined text-on-primary-container">person_pin_circle</span>
+</div>
+<div class="flex items-end gap-sm">
+<span class="font-display-lg text-display-lg text-on-surface">1,240</span>
+<span class="flex items-center text-on-tertiary-container font-label-md text-label-md mb-xs">
+                                Across 12 camps
+                            </span>
+</div>
+</div>
+<!-- Metric Card 3 -->
+<div class="bg-surface border border-outline-variant rounded-lg p-md flex flex-col justify-between hover:bg-surface-bright transition-colors cursor-default">
+<div class="flex justify-between items-start mb-sm">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Camps</span>
+<span class="material-symbols-outlined text-on-primary-container">home_work</span>
+</div>
+<div class="flex items-end gap-sm">
+<span class="font-display-lg text-display-lg text-on-surface">12</span>
+<span class="flex items-center text-on-surface-variant font-label-md text-label-md mb-xs">
+                                Active relief centers
+                            </span>
+</div>
+</div>
+<!-- Metric Card 4 -->
+<div class="bg-secondary-fixed border border-secondary-fixed-dim rounded-lg p-md flex flex-col justify-between cursor-default">
+<div class="flex justify-between items-start mb-sm">
+<span class="font-label-md text-label-md text-on-secondary-fixed-variant uppercase tracking-wider">Urgent Shortages</span>
+<span class="material-symbols-outlined text-secondary">report_problem</span>
+</div>
+<div class="flex items-end gap-sm">
+<span class="font-display-lg text-display-lg text-on-secondary-fixed">4</span>
+<span class="flex items-center text-secondary font-label-md text-label-md mb-xs">
+                                High-priority alerts
+                            </span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-xl">
+<!-- Table Section -->
+<div class="lg:col-span-2 bg-surface border border-outline-variant rounded-lg overflow-hidden flex flex-col">
+<div class="bg-surface-bright border-b border-outline-variant p-md flex justify-between items-center">
+<h2 class="font-headline-md text-headline-md text-on-surface">Urgent Relief Camps</h2>
+<button class="text-primary font-label-md text-label-md hover:underline flex items-center gap-xs">
+                                View All <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-lowest border-b border-outline-variant font-label-md text-label-md text-on-surface-variant">
+<th class="p-sm md:p-md font-medium">Camp Name</th>
+<th class="p-sm md:p-md font-medium">Area</th>
+<th class="p-sm md:p-md font-medium w-48">Capacity</th>
+<th class="p-sm md:p-md font-medium">Urgent Conditions</th>
+<th class="p-sm md:p-md font-medium text-right">Action</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<tr class="border-b border-outline-variant hover:bg-surface-bright transition-colors">
+<td class="p-sm md:p-md font-semibold">Camp Alpha</td>
+<td class="p-sm md:p-md text-on-surface-variant">North Sector</td>
+<td class="p-sm md:p-md">
+<div class="flex items-center gap-xs">
+<div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[95%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-secondary">95%</span>
+</div>
+</td>
+<td class="p-sm md:p-md">
+<span class="inline-flex items-center px-2 py-1 rounded bg-error-container text-on-error-container font-label-sm text-label-sm">Food Shortage</span>
+</td>
+<td class="p-sm md:p-md text-right">
+<button class="bg-secondary text-on-secondary px-sm py-xs rounded font-label-md text-label-md hover:bg-on-secondary-fixed-variant transition-colors">Allocate</button>
+</td>
+</tr>
+<tr class="bg-surface-bright border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="p-sm md:p-md font-semibold">Shelter Delta</td>
+<td class="p-sm md:p-md text-on-surface-variant">East District</td>
+<td class="p-sm md:p-md">
+<div class="flex items-center gap-xs">
+<div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-error w-[88%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-error">88%</span>
+</div>
+</td>
+<td class="p-sm md:p-md">
+<span class="inline-flex items-center px-2 py-1 rounded bg-error-container text-on-error-container font-label-sm text-label-sm">Medical Needs</span>
+</td>
+<td class="p-sm md:p-md text-right">
+<button class="bg-secondary text-on-secondary px-sm py-xs rounded font-label-md text-label-md hover:bg-on-secondary-fixed-variant transition-colors">Allocate</button>
+</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-bright transition-colors">
+<td class="p-sm md:p-md font-semibold">Haven Base</td>
+<td class="p-sm md:p-md text-on-surface-variant">West Valley</td>
+<td class="p-sm md:p-md">
+<div class="flex items-center gap-xs">
+<div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-fixed-dim w-[45%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-tertiary-container">45%</span>
+</div>
+</td>
+<td class="p-sm md:p-md">
+<span class="inline-flex items-center px-2 py-1 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Stable</span>
+</td>
+<td class="p-sm md:p-md text-right">
+<button class="border border-outline bg-transparent text-on-surface px-sm py-xs rounded font-label-md text-label-md hover:bg-surface-container transition-colors">Manage</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Recent Events Section -->
+<div class="bg-surface border border-outline-variant rounded-lg flex flex-col">
+<div class="bg-surface-bright border-b border-outline-variant p-md">
+<h2 class="font-headline-md text-headline-md text-on-surface">Recent Disaster Events</h2>
+</div>
+<div class="p-md flex flex-col gap-md">
+<!-- Event Item 1 -->
+<div class="flex gap-md border-b border-outline-variant pb-md last:border-0 last:pb-0">
+<div class="w-10 h-10 rounded bg-secondary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary">flood</span>
+</div>
+<div>
+<div class="flex items-center gap-xs mb-xs">
+<h3 class="font-body-lg text-body-lg font-semibold text-on-surface">River Flooding</h3>
+<span class="px-2 py-0.5 bg-error-container text-on-error-container font-label-sm text-label-sm rounded uppercase tracking-wider">Critical</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xs">North Sector River banks overflowed. Evacuations in progress.</p>
+<div class="font-label-sm text-label-sm text-on-surface-variant opacity-70">2 hours ago</div>
+</div>
+</div>
+<!-- Event Item 2 -->
+<div class="flex gap-md border-b border-outline-variant pb-md last:border-0 last:pb-0">
+<div class="w-10 h-10 rounded bg-error-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-error">local_fire_department</span>
+</div>
+<div>
+<div class="flex items-center gap-xs mb-xs">
+<h3 class="font-body-lg text-body-lg font-semibold text-on-surface">Forest Fire</h3>
+<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant font-label-sm text-label-sm rounded uppercase tracking-wider">Contained</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xs">East District pine forest fire contained to 50 acres.</p>
+<div class="font-label-sm text-label-sm text-on-surface-variant opacity-70">5 hours ago</div>
+</div>
+</div>
+<!-- Event Item 3 -->
+<div class="flex gap-md border-b border-outline-variant pb-md last:border-0 last:pb-0">
+<div class="w-10 h-10 rounded bg-tertiary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant">landslide</span>
+</div>
+<div>
+<div class="flex items-center gap-xs mb-xs">
+<h3 class="font-body-lg text-body-lg font-semibold text-on-surface">Minor Landslide</h3>
+<span class="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm rounded uppercase tracking-wider">Resolved</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xs">Route 4 blocked. Cleared by engineering team.</p>
+<div class="font-label-sm text-label-sm text-on-surface-variant opacity-70">Yesterday</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

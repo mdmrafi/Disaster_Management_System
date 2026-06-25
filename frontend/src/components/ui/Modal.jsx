@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 /** Simple controlled modal. Closes on Escape and backdrop click. */
-export default function Modal({ open, title, onClose, children, footer }) {
+export default function Modal({ open, title, onClose, children, footer, maxWidth = 'max-w-lg' }) {
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => e.key === 'Escape' && onClose?.();
@@ -13,29 +13,29 @@ export default function Modal({ open, title, onClose, children, footer }) {
 
   return (
     <div
-      className="fixed inset-0 z-40 flex items-center justify-center"
+      className="fixed inset-0 z-40 flex items-center justify-center p-md"
       aria-modal="true"
       role="dialog"
     >
       <div
-        className="absolute inset-0 bg-slate-900/50"
+        className="absolute inset-0 bg-primary/60"
         onClick={onClose}
       />
-      <div className="relative z-50 w-full max-w-lg rounded-lg bg-white shadow-xl ring-1 ring-slate-200">
-        <header className="flex items-center justify-between px-4 py-3 border-b border-slate-200">
-          <h3 className="text-sm font-semibold text-slate-800">{title}</h3>
+      <div className={`relative z-50 w-full ${maxWidth} rounded-xl bg-surface-container-lowest shadow-xl border border-outline-variant overflow-hidden`}>
+        <header className="flex items-center justify-between px-md py-sm border-b border-outline-variant bg-surface-container">
+          <h3 className="font-headline-md text-headline-md text-on-surface">{title}</h3>
           <button
             type="button"
-            className="btn-ghost"
+            className="p-xs rounded-full text-on-surface-variant hover:bg-surface-container-high transition-colors"
             onClick={onClose}
             aria-label="Close"
           >
-            ✕
+            <span className="material-symbols-outlined text-[20px]">close</span>
           </button>
         </header>
-        <div className="px-4 py-3">{children}</div>
+        <div className="px-md py-md max-h-[70vh] overflow-y-auto">{children}</div>
         {footer && (
-          <footer className="flex justify-end gap-2 px-4 py-3 border-t border-slate-200">
+          <footer className="flex justify-end gap-sm px-md py-sm border-t border-outline-variant bg-surface-container-low">
             {footer}
           </footer>
         )}

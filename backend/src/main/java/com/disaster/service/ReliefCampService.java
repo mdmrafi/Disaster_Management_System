@@ -50,6 +50,11 @@ public class ReliefCampService {
                 .location(req.getLocation())
                 .capacity(req.getCapacity())
                 .currentOccupancy(0)
+                .latitude(req.getLatitude())
+                .longitude(req.getLongitude())
+                .status(req.getStatus() == null
+                        ? com.disaster.entity.CampStatus.ACTIVE
+                        : req.getStatus())
                 .area(area)
                 .build();
         return toResponse(campRepository.save(c));
@@ -68,6 +73,9 @@ public class ReliefCampService {
         c.setCampName(req.getCampName());
         c.setLocation(req.getLocation());
         c.setCapacity(req.getCapacity());
+        c.setLatitude(req.getLatitude());
+        c.setLongitude(req.getLongitude());
+        if (req.getStatus() != null) c.setStatus(req.getStatus());
         c.setArea(area);
         return toResponse(c);
     }
@@ -91,6 +99,9 @@ public class ReliefCampService {
                 .location(c.getLocation())
                 .capacity(c.getCapacity())
                 .currentOccupancy(c.getCurrentOccupancy())
+                .latitude(c.getLatitude())
+                .longitude(c.getLongitude())
+                .status(c.getStatus())
                 .areaId(c.getArea().getAreaId())
                 .areaName(c.getArea().getAreaName())
                 .disasterId(c.getArea().getDisaster().getDisasterId())

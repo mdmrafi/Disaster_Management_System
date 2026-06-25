@@ -1,6 +1,7 @@
 package com.disaster.dto;
 
 import com.disaster.entity.Specialization;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -14,6 +15,9 @@ public class VolunteerRequest {
 
     @NotBlank @Size(max = 30)
     private String phone;
+
+    @Email @Size(max = 150)
+    private String email;
 
     @NotNull
     private Specialization specialization;

@@ -1,0 +1,105 @@
+-- SQL Schema for Disaster Management and Relief Camp Resource Allocation System
+-- Naming: camelCase Java entities, snake_case SQL columns
+
+-- 1. Disaster Table
+CREATE TABLE disaster (
+    disaster_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    disaster_name VARCHAR(255) NOT NULL,
+    disaster_type ENUM('FLOOD', 'CYCLONE', 'EARTHQUAKE', 'LANDSLIDE', 'OTHER') NOT NULL,
+    severity_level ENUM('LOW', 'MEDIUM', 'HIGH', 'CRITICAL') NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE, -- Nullable if still active
+    description TEXT,
+    CONSTRAINT chk_disaster_dates CHECK (end_date IS NULL OR end_date >= start_date)
+);
+
+-- 2. Affected Area Table
+CREATE TABLE affected_area (
+    area_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    area_name VARCHAR(255) NOT NULL,
+    district VARCHAR(255) NOT NULL,
+    population INT NOT NULL,
+    disaster_id BIGINT NOT NULL,
+    FOREIGN KEY (disaster_id) REFERENCES disaster(disaster_id) ON DELETE RESTRICT
+);
+
+-- 3. Relief Camp Table
+CREATE TABLE relief_camp (
+    camp_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    camp_name VARCHAR(255) NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    capacity INT NOT NULL,
+    current_occupancy INT DEFAULT 0,
+    area_id BIGINT NOT NULL,
+    FOREIGN KEY (area_id) REFERENCES affected_area(area_id) ON DELETE RESTRICT,
+    CONSTRAINT chk_occupancy CHECK (current_occupancy <= capacity)
+);
+
+-- 4. Victim Table
+CREATE TABLE victim (
+    victim_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    age INT NOT NULL,
+    gender VARCHAR(50) NOT NULL,
+    family_members INT DEFAULT 0,
+    priority_level ENUM('HIGH', 'MEDIUM', 'LOW') NOT NULL,
+    medical_condition TEXT,
+    camp_id BIGINT NOT NULL,
+    FOREIGN KEY (camp_id) REFERENCES relief_camp(camp_id) ON DELETE RESTRICT
+);
+
+-- 5. Volunteer Table
+CREATE TABLE volunteer (
+    volunteer_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    specialization ENUM('MEDICAL', 'LOGISTICS', 'FOOD_DISTRIBUTION', 'RESCUE') NOT NULL,
+    availability_status ENUM('AVAILABLE', 'ASSIGNED', 'UNAVAILABLE') NOT NULL
+);
+
+-- 6. Volunteer Assignment Table (Join Entity)
+CREATE TABLE volunteer_assignment (
+    assignment_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    volunteer_id BIGINT NOT NULL,
+    camp_id BIGINT NOT NULL,
+    duty_hours INT,
+    assigned_date DATE NOT NULL,
+    FOREIGN KEY (volunteer_id) REFERENCES volunteer(volunteer_id) ON DELETE RESTRICT,
+    FOREIGN KEY (camp_id) REFERENCES relief_camp(camp_id) ON DELETE RESTRICT,
+    UNIQUE (volunteer_id, camp_id)
+);
+
+-- 7. Resource Table
+CREATE TABLE resource (
+    resource_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    resource_name VARCHAR(255) NOT NULL,
+    category ENUM('FOOD', 'MEDICAL', 'SHELTER', 'EMERGENCY') NOT NULL,
+    total_quantity INT DEFAULT 0,
+    available_quantity INT DEFAULT 0,
+    CONSTRAINT chk_resource_qty CHECK (available_quantity <= total_quantity AND available_quantity >= 0)
+);
+
+-- 8. Donation Table
+CREATE TABLE donation (
+    donation_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    donor_name VARCHAR(255) NOT NULL,
+    donation_date DATE NOT NULL,
+    disaster_id BIGINT NOT NULL,
+    resource_id BIGINT NOT NULL,
+    quantity INT NOT NULL,
+    FOREIGN KEY (disaster_id) REFERENCES disaster(disaster_id) ON DELETE RESTRICT,
+    FOREIGN KEY (resource_id) REFERENCES resource(resource_id) ON DELETE RESTRICT,
+    CONSTRAINT chk_donation_qty CHECK (quantity > 0)
+);
+
+-- 9. Resource Allocation Table
+CREATE TABLE resource_allocation (
+    allocation_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    camp_id BIGINT NOT NULL,
+    resource_id BIGINT NOT NULL,
+    quantity INT NOT NULL,
+    allocation_date DATE NOT NULL,
+    FOREIGN KEY (camp_id) REFERENCES relief_camp(camp_id) ON DELETE RESTRICT,
+    FOREIGN KEY (resource_id) REFERENCES resource(resource_id) ON DELETE RESTRICT,
+    CONSTRAINT chk_allocation_qty CHECK (quantity > 0)
+);

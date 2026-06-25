@@ -16,6 +16,7 @@ export default function ConfirmDialog({
       open={open}
       title={title}
       onClose={onCancel}
+      maxWidth="max-w-md"
       footer={
         <>
           <button type="button" className="btn-secondary" onClick={onCancel}>
@@ -31,7 +32,14 @@ export default function ConfirmDialog({
         </>
       }
     >
-      <p className="text-sm text-slate-600">{message}</p>
+      <div className="flex items-start gap-md">
+        <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${danger ? 'bg-error-container text-on-error-container' : 'bg-surface-container text-on-surface-variant'}`}>
+          <span className="material-symbols-outlined text-[20px]">
+            {danger ? 'priority_high' : 'help'}
+          </span>
+        </div>
+        <p className="font-body-md text-body-md text-on-surface-variant">{message}</p>
+      </div>
     </Modal>
   );
 }

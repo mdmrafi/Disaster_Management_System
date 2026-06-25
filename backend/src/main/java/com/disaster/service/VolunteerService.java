@@ -34,6 +34,7 @@ public class VolunteerService {
         Volunteer v = Volunteer.builder()
                 .name(req.getName())
                 .phone(req.getPhone())
+                .email(req.getEmail())
                 .specialization(req.getSpecialization())
                 .availabilityStatus(AvailabilityStatus.AVAILABLE)
                 .build();
@@ -44,6 +45,7 @@ public class VolunteerService {
         Volunteer v = getOrThrow(id);
         v.setName(req.getName());
         v.setPhone(req.getPhone());
+        v.setEmail(req.getEmail());
         v.setSpecialization(req.getSpecialization());
         return toResponse(v);
     }
@@ -76,6 +78,7 @@ public class VolunteerService {
                 .volunteerId(v.getVolunteerId())
                 .name(v.getName())
                 .phone(v.getPhone())
+                .email(v.getEmail())
                 .specialization(v.getSpecialization())
                 .availabilityStatus(v.getAvailabilityStatus())
                 .build();

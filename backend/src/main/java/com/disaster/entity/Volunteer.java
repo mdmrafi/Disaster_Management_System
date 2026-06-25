@@ -20,6 +20,9 @@ public class Volunteer {
     @Column(name = "phone", nullable = false, length = 30)
     private String phone;
 
+    @Column(name = "email", length = 150)
+    private String email;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "specialization", nullable = false)
     private Specialization specialization;

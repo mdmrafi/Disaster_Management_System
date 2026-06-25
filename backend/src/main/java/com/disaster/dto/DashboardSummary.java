@@ -6,9 +6,9 @@ import java.util.List;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class DashboardSummary {
-    private long totalDisasters;
-    private long activeCamps;
-    private long totalVictims;
+    private long activeDisasters;
+    private long campCount;
+    private long victimCount;
     private long urgentShortageCount;
-    private List<ShortageReport> urgentCamps;
+    private List<ShortageReport> urgentShortages;
 }

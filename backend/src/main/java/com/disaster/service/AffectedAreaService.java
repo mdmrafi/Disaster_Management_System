@@ -44,6 +44,9 @@ public class AffectedAreaService {
                 .areaName(req.getAreaName())
                 .district(req.getDistrict())
                 .population(req.getPopulation())
+                .latitude(req.getLatitude())
+                .longitude(req.getLongitude())
+                .severity(req.getSeverity())
                 .disaster(d)
                 .build();
         return toResponse(areaRepository.save(a));
@@ -57,6 +60,9 @@ public class AffectedAreaService {
         a.setAreaName(req.getAreaName());
         a.setDistrict(req.getDistrict());
         a.setPopulation(req.getPopulation());
+        a.setLatitude(req.getLatitude());
+        a.setLongitude(req.getLongitude());
+        a.setSeverity(req.getSeverity());
         a.setDisaster(d);
         return toResponse(a);
     }
@@ -79,6 +85,9 @@ public class AffectedAreaService {
                 .areaName(a.getAreaName())
                 .district(a.getDistrict())
                 .population(a.getPopulation())
+                .latitude(a.getLatitude())
+                .longitude(a.getLongitude())
+                .severity(a.getSeverity())
                 .disasterId(a.getDisaster().getDisasterId())
                 .disasterName(a.getDisaster().getDisasterName())
                 .build();

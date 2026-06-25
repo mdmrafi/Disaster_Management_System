@@ -1,5 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/layout/Layout.jsx';
+import LoginPage from './components/LoginPage.jsx';
+import RequireAuth from './components/RequireAuth.jsx';
 
 import DashboardPage     from './pages/DashboardPage.jsx';
 import DisastersPage     from './pages/DisastersPage.jsx';
@@ -15,7 +17,14 @@ import ShortagesPage     from './pages/ShortagesPage.jsx';
 export default function App() {
   return (
     <Routes>
-      <Route element={<Layout />}>
+      <Route path="/login" element={<LoginPage />} />
+      <Route
+        element={
+          <RequireAuth>
+            <Layout />
+          </RequireAuth>
+        }
+      >
         <Route path="/"                element={<DashboardPage />} />
         <Route path="/disasters"       element={<DisastersPage />} />
         <Route path="/areas"           element={<AffectedAreasPage />} />

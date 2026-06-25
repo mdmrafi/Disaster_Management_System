@@ -1,0 +1,38 @@
+-- SQL Triggers for Data Integrity (Safety Nets)
+
+DELIMITER //
+
+-- Trigger 1: Prevent over-allocation
+CREATE TRIGGER trigger_prevent_over_allocation
+BEFORE INSERT ON resource_allocation
+FOR EACH ROW
+BEGIN
+    DECLARE available INT;
+    SELECT available_quantity INTO available FROM resource WHERE resource_id = NEW.resource_id;
+    IF NEW.quantity > available THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insufficient resource quantity available for allocation';
+    END IF;
+END; //
+
+-- Trigger 2: Update resource stock after allocation
+CREATE TRIGGER trigger_update_stock_after_allocation
+AFTER INSERT ON resource_allocation
+FOR EACH ROW
+BEGIN
+    UPDATE resource
+    SET available_quantity = available_quantity - NEW.quantity
+    WHERE resource_id = NEW.resource_id;
+END; //
+
+-- Trigger 3: Update resource stock after donation
+CREATE TRIGGER trigger_update_stock_after_donation
+AFTER INSERT ON donation
+FOR EACH ROW
+BEGIN
+    UPDATE resource
+    SET available_quantity = available_quantity + NEW.quantity,
+        total_quantity = total_quantity + NEW.quantity
+    WHERE resource_id = NEW.resource_id;
+END; //
+
+DELIMITER ;

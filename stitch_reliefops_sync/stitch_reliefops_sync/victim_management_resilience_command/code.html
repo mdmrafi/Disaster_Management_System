@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Resilience Command - Victim Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#bcc7de",
+                        "on-tertiary": "#ffffff",
+                        "secondary-container": "#e02928",
+                        "secondary": "#bb0112",
+                        "tertiary-container": "#003013",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-bright": "#f8f9ff",
+                        "on-secondary-fixed": "#410002",
+                        "primary-fixed": "#d8e3fb",
+                        "surface-variant": "#d3e4fe",
+                        "on-secondary-fixed-variant": "#93000b",
+                        "on-background": "#0b1c30",
+                        "on-tertiary-fixed": "#00210b",
+                        "tertiary-fixed": "#a6f4b5",
+                        "tertiary-fixed-dim": "#8bd79b",
+                        "on-tertiary-container": "#559f67",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#ffb4ab",
+                        "on-surface-variant": "#45474c",
+                        "on-tertiary-fixed-variant": "#005226",
+                        "surface-container": "#e5eeff",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container-high": "#dce9ff",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#111c2d",
+                        "surface-container-highest": "#d3e4fe",
+                        "primary-container": "#1e293b",
+                        "surface-tint": "#545f73",
+                        "on-error": "#ffffff",
+                        "on-surface": "#0b1c30",
+                        "background": "#f8f9ff",
+                        "error-container": "#ffdad6",
+                        "primary": "#091426",
+                        "surface-dim": "#cbdbf5",
+                        "outline": "#75777d",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#c5c6cd",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#fffbff",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#8590a6",
+                        "inverse-primary": "#bcc7de",
+                        "tertiary": "#001907",
+                        "secondary-fixed": "#ffdad6",
+                        "inverse-surface": "#213145",
+                        "on-primary-fixed-variant": "#3c475a",
+                        "surface": "#f8f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "xl": "32px",
+                        "base": "4px",
+                        "xs": "4px",
+                        "2xl": "48px",
+                        "gutter": "16px",
+                        "md": "16px",
+                        "margin": "24px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "label-sm": ["JetBrains Mono"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "label-sm": ["10px", { "lineHeight": "14px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<nav class="bg-surface-container dark:bg-surface-container-lowest text-primary dark:text-primary-fixed-dim font-label-md text-label-md fixed left-0 top-0 h-full w-[280px] border-r border-outline-variant dark:border-outline flat no shadows flex flex-col py-lg px-md overflow-y-auto hidden md:flex z-40">
+<div class="mb-xl px-sm">
+<h1 class="font-headline-sm text-headline-sm font-black text-primary flex items-center gap-sm">
+<span class="material-symbols-outlined fill-icon text-primary">security</span>
+                Command Center
+            </h1>
+<p class="text-on-surface-variant mt-xs">Operational Oversight</p>
+</div>
+<ul class="flex flex-col gap-xs flex-1">
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+                    Disasters
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+                    Affected Areas
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="home_work">home_work</span>
+                    Relief Camps
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-primary dark:text-on-primary-container bg-surface-container-highest dark:bg-primary-container font-bold hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined fill-icon" data-icon="person_pin_circle">person_pin_circle</span>
+                    Victims
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+                    Volunteers
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+                    Resources
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="volunteer_activism">volunteer_activism</span>
+                    Donations
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+                    Allocations
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="report_problem">report_problem</span>
+                    Shortages
+                </a>
+</li>
+</ul>
+<ul class="flex flex-col gap-xs mt-auto border-t border-outline-variant pt-md">
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                    Support
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                    Logout
+                </a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-[280px] w-full min-w-0">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-dim text-primary dark:text-primary-fixed-dim font-body-md text-body-md docked full-width top-0 border-b border-outline-variant dark:border-outline flat no shadows flex justify-between items-center w-full px-margin h-16 z-50">
+<div class="flex items-center gap-margin">
+<!-- Mobile Menu Button (Visible only on small screens) -->
+<button class="md:hidden p-sm rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim md:hidden">
+                    Resilience Command
+                </div>
+</div>
+<!-- Search Bar (on_left configuration) -->
+<div class="flex-1 max-w-md mx-margin hidden sm:block relative">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-xl pr-sm py-sm rounded-full border border-outline-variant bg-surface-container-lowest text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-body-md font-body-md" placeholder="Search victims, resources, or camps..." type="text"/>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-sm rounded-full hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80 text-on-surface-variant relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<button class="p-sm rounded-full hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="ml-sm w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold text-label-md overflow-hidden border border-outline-variant cursor-pointer">
+<img alt="Chief Coordinator Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a female relief coordinator wearing a high-visibility vest over a dark navy shirt, brightly lit in a modern command center environment with blurred digital screens in the background, conveying competence and authority." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgE6l2YNeDXfW8yaB-CcJ9CLzY8LKLnAvcNKOIy9YXI2qaQXOcgV1jfUnnSpLjZzBSXbXh1RY9zjqSf5VtxL4kD2SPhNHCWNfsp2_2crbf8UQ0WSjVfImjiQunp1VZCJ-jsboqciiTp8Wa3G23IyEdhwsdshvD1e3dw36UzYXOwbbs74kX_GVUjG11ieYno_T_X5Ms3gwyfssV3_sf5-FZAZ-8W_3rNRto3_rZLDP-o5QcCyVF3X2_GCbwveNPIvblo8HkVHFtbF1y"/>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto p-margin bg-background">
+<!-- Header Section -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-xl gap-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-background">Victim Management</h2>
+<p class="text-on-surface-variant mt-xs">Track, update, and manage registered individuals across all relief zones.</p>
+</div>
+<button class="bg-primary text-on-primary font-bold px-md py-sm rounded-lg flex items-center gap-sm hover:opacity-90 transition-opacity whitespace-nowrap shadow-sm">
+<span class="material-symbols-outlined">add</span>
+                    Register New Victim
+                </button>
+</div>
+<!-- Filters & Controls Bar -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md mb-md flex flex-col lg:flex-row gap-md items-center justify-between shadow-sm">
+<div class="flex flex-col sm:flex-row gap-md w-full lg:w-auto flex-1">
+<!-- Search Input -->
+<div class="relative w-full sm:max-w-xs">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full pl-xl pr-sm py-sm rounded-lg border border-outline-variant bg-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-body-md font-body-md h-10" placeholder="Search by name or ID..." type="text"/>
+</div>
+<!-- Filter Dropdowns -->
+<div class="flex gap-sm w-full sm:w-auto">
+<select class="w-full sm:w-auto h-10 px-sm py-xs rounded-lg border border-outline-variant bg-surface text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none text-body-md font-body-md cursor-pointer">
+<option value="">All Camps</option>
+<option value="camp-alpha">Camp Alpha (North)</option>
+<option value="camp-beta">Camp Beta (East)</option>
+<option value="camp-gamma">Medical Center 1</option>
+</select>
+<select class="w-full sm:w-auto h-10 px-sm py-xs rounded-lg border border-outline-variant bg-surface text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none text-body-md font-body-md cursor-pointer">
+<option value="">All Priorities</option>
+<option value="high">High (Medical/Urgent)</option>
+<option value="medium">Medium</option>
+<option value="low">Low (Stable)</option>
+</select>
+</div>
+</div>
+<div class="flex items-center gap-sm w-full lg:w-auto justify-end border-t lg:border-t-0 border-outline-variant pt-sm lg:pt-0">
+<span class="text-on-surface-variant font-label-md text-label-md mr-xs">View:</span>
+<button class="p-xs rounded bg-surface-container text-primary border border-outline-variant">
+<span class="material-symbols-outlined text-[20px]">table_rows</span>
+</button>
+<button class="p-xs rounded hover:bg-surface-container-low text-on-surface-variant border border-transparent transition-colors">
+<span class="material-symbols-outlined text-[20px]">grid_view</span>
+</button>
+</div>
+</div>
+<!-- Data Table Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse whitespace-nowrap min-w-[800px]">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">
+<th class="py-sm px-md font-medium w-12 text-center">
+<input class="rounded border-outline-variant text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</th>
+<th class="py-sm px-md font-medium cursor-pointer hover:text-primary transition-colors">Victim Name <span class="material-symbols-outlined text-[16px] align-middle">arrow_downward</span></th>
+<th class="py-sm px-md font-medium">Age</th>
+<th class="py-sm px-md font-medium">Gender</th>
+<th class="py-sm px-md font-medium">Camp Location</th>
+<th class="py-sm px-md font-medium">Priority</th>
+<th class="py-sm px-md font-medium">Medical Status</th>
+<th class="py-sm px-md font-medium text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- High Priority Row (Tinted) -->
+<tr class="hover:bg-surface-container-low transition-colors bg-error-container/20 group">
+<td class="py-sm px-md text-center">
+<input class="rounded border-outline-variant text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-sm px-md">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-primary flex items-center justify-center font-bold text-label-md">SJ</div>
+<div>
+<div class="font-semibold text-on-background">Sarah Jenkins</div>
+<div class="text-on-surface-variant font-label-md text-label-md">ID: V-8892</div>
+</div>
+</div>
+</td>
+<td class="py-sm px-md text-on-surface">34</td>
+<td class="py-sm px-md text-on-surface">Female</td>
+<td class="py-sm px-md">
+<a class="text-primary hover:underline flex items-center gap-xs font-medium" href="#">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Camp Alpha
+                                    </a>
+</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center px-2 py-1 rounded bg-secondary-container text-on-secondary-container font-label-md text-label-md uppercase font-bold tracking-wider">
+                                        High
+                                    </span>
+</td>
+<td class="py-sm px-md text-error font-medium flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">medical_services</span> Needs Insulin
+                                </td>
+<td class="py-sm px-md text-right">
+<button class="text-on-surface-variant hover:text-primary p-xs rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary p-xs rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Standard Row (Even) -->
+<tr class="hover:bg-surface-container-low transition-colors bg-surface-bright group">
+<td class="py-sm px-md text-center">
+<input class="rounded border-outline-variant text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-sm px-md">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-primary flex items-center justify-center font-bold text-label-md">MR</div>
+<div>
+<div class="font-semibold text-on-background">Marcus Rivera</div>
+<div class="text-on-surface-variant font-label-md text-label-md">ID: V-8893</div>
+</div>
+</div>
+</td>
+<td class="py-sm px-md text-on-surface">45</td>
+<td class="py-sm px-md text-on-surface">Male</td>
+<td class="py-sm px-md">
+<a class="text-primary hover:underline flex items-center gap-xs font-medium" href="#">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Camp Beta
+                                    </a>
+</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center px-2 py-1 rounded bg-surface-container-high text-on-surface-variant font-label-md text-label-md uppercase font-bold tracking-wider border border-outline-variant">
+                                        Low
+                                    </span>
+</td>
+<td class="py-sm px-md text-on-surface-variant">
+                                    Stable
+                                </td>
+<td class="py-sm px-md text-right">
+<button class="text-on-surface-variant hover:text-primary p-xs rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary p-xs rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Medium Priority Row -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-sm px-md text-center">
+<input class="rounded border-outline-variant text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-sm px-md">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-primary flex items-center justify-center font-bold text-label-md">LC</div>
+<div>
+<div class="font-semibold text-on-background">Liam Chen</div>
+<div class="text-on-surface-variant font-label-md text-label-md">ID: V-8894</div>
+</div>
+</div>
+</td>
+<td class="py-sm px-md text-on-surface">8</td>
+<td class="py-sm px-md text-on-surface">Male</td>
+<td class="py-sm px-md">
+<a class="text-primary hover:underline flex items-center gap-xs font-medium" href="#">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Medical Center 1
+                                    </a>
+</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center px-2 py-1 rounded bg-surface-tint/20 text-on-surface font-label-md text-label-md uppercase font-bold tracking-wider">
+                                        Medium
+                                    </span>
+</td>
+<td class="py-sm px-md text-on-surface font-medium">
+                                    Minor Abrasions
+                                </td>
+<td class="py-sm px-md text-right">
+<button class="text-on-surface-variant hover:text-primary p-xs rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary p-xs rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Standard Row (Even) -->
+<tr class="hover:bg-surface-container-low transition-colors bg-surface-bright group">
+<td class="py-sm px-md text-center">
+<input class="rounded border-outline-variant text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-sm px-md">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-primary flex items-center justify-center font-bold text-label-md">EW</div>
+<div>
+<div class="font-semibold text-on-background">Elena Washington</div>
+<div class="text-on-surface-variant font-label-md text-label-md">ID: V-8895</div>
+</div>
+</div>
+</td>
+<td class="py-sm px-md text-on-surface">62</td>
+<td class="py-sm px-md text-on-surface">Female</td>
+<td class="py-sm px-md">
+<a class="text-primary hover:underline flex items-center gap-xs font-medium" href="#">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Camp Alpha
+                                    </a>
+</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center px-2 py-1 rounded bg-surface-container-high text-on-surface-variant font-label-md text-label-md uppercase font-bold tracking-wider border border-outline-variant">
+                                        Low
+                                    </span>
+</td>
+<td class="py-sm px-md text-on-surface-variant">
+                                    Stable
+                                </td>
+<td class="py-sm px-md text-right">
+<button class="text-on-surface-variant hover:text-primary p-xs rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary p-xs rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="bg-surface-container-lowest border-t border-outline-variant p-sm px-md flex items-center justify-between text-on-surface-variant font-body-md text-body-md">
+<div class="flex items-center gap-sm">
+<span>Rows per page:</span>
+<select class="bg-transparent border-none focus:ring-0 text-primary cursor-pointer p-0 font-medium">
+<option>10</option>
+<option>25</option>
+<option>50</option>
+</select>
+</div>
+<div class="flex items-center gap-md">
+<span>1-10 of 2,491</span>
+<div class="flex gap-xs">
+<button class="p-xs rounded hover:bg-surface-container text-on-surface-variant disabled:opacity-50 cursor-pointer transition-colors" disabled="">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="p-xs rounded hover:bg-surface-container text-primary cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

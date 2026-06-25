@@ -29,6 +29,16 @@ public class AffectedArea {
     @Column(name = "population", nullable = false)
     private Integer population;
 
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @Column(name = "longitude")
+    private Double longitude;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "severity", length = 20)
+    private SeverityLevel severity;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "disaster_id", nullable = false)
     private Disaster disaster;

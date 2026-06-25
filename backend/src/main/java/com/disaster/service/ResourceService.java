@@ -36,11 +36,12 @@ public class ResourceService {
     }
 
     public ResourceResponse create(ResourceRequest req) {
+        int seed = req.getInitialQuantity() == null ? 0 : req.getInitialQuantity();
         Resource r = Resource.builder()
                 .resourceName(req.getResourceName())
                 .category(req.getCategory())
-                .totalQuantity(req.getInitialQuantity())
-                .availableQuantity(req.getInitialQuantity())
+                .totalQuantity(seed)
+                .availableQuantity(seed)
                 .build();
         return toResponse(resourceRepository.save(r));
     }

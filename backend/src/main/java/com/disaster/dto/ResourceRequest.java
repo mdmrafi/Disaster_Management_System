@@ -18,8 +18,9 @@ public class ResourceRequest {
 
     /**
      * Initial seed for both total_quantity and available_quantity.
-     * May be 0 — the resource is created empty and topped up via donations.
+     * Required on create; ignored on update so stock can be edited through
+     * donations / allocations without re-sending the seed value.
      */
-    @NotNull @Min(0)
+    @Min(0)
     private Integer initialQuantity;
 }

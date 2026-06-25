@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Volunteer Management - Resilience Command</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#00210b",
+                        "on-primary-fixed": "#111c2d",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#410002",
+                        "secondary": "#bb0112",
+                        "outline-variant": "#c5c6cd",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-tertiary-container": "#559f67",
+                        "primary-fixed": "#d8e3fb",
+                        "outline": "#75777d",
+                        "background": "#f8f9ff",
+                        "tertiary-fixed-dim": "#8bd79b",
+                        "secondary-fixed-dim": "#ffb4ab",
+                        "on-primary-fixed-variant": "#3c475a",
+                        "on-primary-container": "#8590a6",
+                        "on-surface": "#0b1c30",
+                        "inverse-surface": "#213145",
+                        "surface-dim": "#cbdbf5",
+                        "on-tertiary-fixed-variant": "#005226",
+                        "tertiary": "#001907",
+                        "on-surface-variant": "#45474c",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#e5eeff",
+                        "surface-container-low": "#eff4ff",
+                        "error-container": "#ffdad6",
+                        "on-background": "#0b1c30",
+                        "inverse-on-surface": "#eaf1ff",
+                        "secondary-fixed": "#ffdad6",
+                        "on-secondary-container": "#fffbff",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#93000b",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#bcc7de",
+                        "secondary-container": "#e02928",
+                        "surface-container-high": "#dce9ff",
+                        "surface-bright": "#f8f9ff",
+                        "surface": "#f8f9ff",
+                        "surface-tint": "#545f73",
+                        "primary": "#091426",
+                        "primary-container": "#1e293b",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#a6f4b5",
+                        "primary-fixed-dim": "#bcc7de",
+                        "tertiary-container": "#003013"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "margin": "24px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "gutter": "16px",
+                        "2xl": "48px",
+                        "base": "4px",
+                        "sm": "8px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["JetBrains Mono"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["10px", {"lineHeight": "14px", "fontWeight": "600"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md antialiased">
+<!-- TopNavBar Component -->
+<header class="bg-surface-container-lowest text-primary font-headline-md text-headline-md fixed top-0 w-full z-50 flex justify-between items-center px-lg h-16 border-b border-outline-variant flat no shadows">
+<!-- Search Left -->
+<div class="flex items-center gap-md w-1/3 pl-[280px]"> <!-- Offset for SideNav -->
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-body-lg">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant text-on-surface font-body-md rounded-DEFAULT pl-xl pr-sm py-xs focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-on-surface-variant/50" placeholder="Search operational databanks..." type="text"/>
+</div>
+</div>
+<!-- Brand Center (Optional positioning based on standard dashboard layouts, keeping to right for balance if search is left) -->
+<div class="flex-1 flex justify-center hidden">
+<!-- SideNav handles primary brand display in this structure -->
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-md">
+<button class="text-on-surface-variant hover:bg-surface-container transition-colors cursor-pointer active:opacity-80 p-sm rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container transition-colors cursor-pointer active:opacity-80 p-sm rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container transition-colors cursor-pointer active:opacity-80 p-sm rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant ml-sm cursor-pointer hover:opacity-80 transition-opacity">
+<img alt="Administrator Profile" class="w-full h-full object-cover" data-alt="A professional headshot of an incident commander in a tactical uniform, neutral lighting, modern corporate ID photo style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBa2TecaSIrHMIIXvYzBo1wHD0U3-nRkI0lnoaP1j0Qndqmv0EjwvT3Spt2gwkr1nfyGvdF11C7E_8IgtT6L_OuvD3j4UjkyKQZqtaMvaN8_nNu6x_D5RRZeADy0xvaFw9ghr16uUTSrkXi821S4w4rMp2YmfK0IxEdimgUIqEhBz9dqu-IdWdAqAXf_JHevdc2p-R7f0WPrZc1MBRxuCrrKBI9VfMlSOAub5spxTxACNH8l_QAHUDc6SpC8tZI_n_6va4OgFuSHqGc"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar Component -->
+<nav class="bg-surface text-primary font-label-md text-label-md fixed left-0 top-0 bottom-0 w-[280px] z-40 flex flex-col pt-20 pb-md px-md border-r border-outline-variant flat no shadows">
+<!-- Brand Header (Inside SideNav as per JSON properties indicating header elements) -->
+<div class="mb-xl px-sm flex items-center gap-sm">
+<div class="h-10 w-10 bg-primary text-on-primary rounded-lg flex items-center justify-center font-bold">
+<span class="material-symbols-outlined">shield</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-black text-on-surface">Command Center</h1>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Disaster Operations</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto flex flex-col gap-xs">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-all transition-transform duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-all transition-transform duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined">warning</span>
+                Disasters
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-all transition-transform duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined">map</span>
+                Affected Areas
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-all transition-transform duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined">home_work</span>
+                Relief Camps
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-all transition-transform duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined">person_remove</span>
+                Victims
+            </a>
+<!-- ACTIVE NAV ITEM -->
+<a class="flex items-center gap-md px-md py-sm bg-surface-container-high text-primary font-bold rounded-lg transition-all transition-transform duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+                Volunteers
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-all transition-transform duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                Resources
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-all transition-transform duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined">volunteer_activism</span>
+                Donations
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-all transition-transform duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined">assignment_turned_in</span>
+                Allocations
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-all transition-transform duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined">assignment_late</span>
+                Shortages
+            </a>
+</div>
+<!-- Footer Links -->
+<div class="mt-auto pt-md border-t border-outline-variant flex flex-col gap-xs">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-all transition-transform duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined">support_agent</span>
+                Support
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-all transition-transform duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+                Sign Out
+            </a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="ml-[280px] pt-16 p-margin min-h-screen flex flex-col gap-margin">
+<!-- Page Header -->
+<div class="flex justify-between items-end">
+<div>
+<p class="font-label-sm text-label-sm text-primary mb-xs uppercase tracking-widest">Personnel Division</p>
+<h2 class="font-headline-lg text-headline-lg text-on-background">Volunteer Management</h2>
+</div>
+<button class="bg-primary text-on-primary font-label-md text-label-md px-md py-sm rounded-DEFAULT flex items-center gap-xs hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                Register Volunteer
+            </button>
+</div>
+<!-- Metrics Grid (Information Density) -->
+<div class="grid grid-cols-4 gap-md">
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-lg flex flex-col gap-xs">
+<p class="font-label-md text-label-md text-on-surface-variant flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]">groups</span> Total Registered</p>
+<p class="font-display-lg text-display-lg text-on-background">1,492</p>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant border-l-4 border-l-tertiary-fixed-dim p-md rounded-lg flex flex-col gap-xs">
+<p class="font-label-md text-label-md text-on-surface-variant flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]">how_to_reg</span> Active in Field</p>
+<p class="font-display-lg text-display-lg text-on-background">845</p>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant border-l-4 border-l-surface-variant p-md rounded-lg flex flex-col gap-xs">
+<p class="font-label-md text-label-md text-on-surface-variant flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]">hourglass_empty</span> Pending Assignment</p>
+<p class="font-display-lg text-display-lg text-on-background">312</p>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-lg flex flex-col gap-xs">
+<p class="font-label-md text-label-md text-on-surface-variant flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]">medical_services</span> Medical Specialists</p>
+<p class="font-display-lg text-display-lg text-on-background">274</p>
+</div>
+</div>
+<!-- Data Table Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg flex flex-col flex-1 overflow-hidden">
+<!-- Table Toolbar -->
+<div class="bg-surface-container-low border-b border-outline-variant p-sm px-md flex justify-between items-center">
+<div class="flex items-center gap-sm">
+<button class="font-label-md text-label-md text-on-surface px-sm py-xs bg-surface-container-lowest border border-outline-variant rounded-DEFAULT flex items-center gap-xs hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-[16px]">filter_list</span> Filter
+                    </button>
+<div class="h-4 w-[1px] bg-outline-variant"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Showing 25 of 1,492 records</span>
+</div>
+<div class="flex gap-xs">
+<button class="p-xs text-on-surface-variant hover:bg-surface-container rounded-DEFAULT transition-colors"><span class="material-symbols-outlined text-[20px]">view_list</span></button>
+<button class="p-xs text-on-surface-variant hover:bg-surface-container rounded-DEFAULT transition-colors"><span class="material-symbols-outlined text-[20px]">grid_view</span></button>
+</div>
+</div>
+<!-- Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-lowest border-b border-outline-variant">
+<th class="font-label-md text-label-md text-on-surface-variant px-md py-sm font-medium w-1/4">Volunteer Name &amp; ID</th>
+<th class="font-label-md text-label-md text-on-surface-variant px-md py-sm font-medium">Specialization</th>
+<th class="font-label-md text-label-md text-on-surface-variant px-md py-sm font-medium">Contact</th>
+<th class="font-label-md text-label-md text-on-surface-variant px-md py-sm font-medium">Status</th>
+<th class="font-label-md text-label-md text-on-surface-variant px-md py-sm font-medium text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-on-background">
+<!-- Row 1 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<td class="px-md py-sm">
+<div class="flex items-center gap-sm">
+<div class="h-8 w-8 rounded-full bg-surface-variant text-on-surface flex items-center justify-center font-bold text-label-md shrink-0">
+                                        JS
+                                    </div>
+<div>
+<p class="font-medium">Dr. Jane Smith</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">ID: V-9021</p>
+</div>
+</div>
+</td>
+<td class="px-md py-sm">
+<span class="inline-flex items-center gap-1 bg-surface-container px-2 py-1 rounded-sm font-label-sm text-label-sm text-on-surface">
+<span class="material-symbols-outlined text-[14px]">medical_services</span> MEDICAL
+                                </span>
+</td>
+<td class="px-md py-sm text-on-surface-variant">+1 (555) 019-2834</td>
+<td class="px-md py-sm">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm px-2 py-1 rounded-sm uppercase tracking-wide inline-flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-fixed-variant"></span> AVAILABLE
+                                </span>
+</td>
+<td class="px-md py-sm text-right">
+<button class="font-label-md text-label-md border border-outline text-on-surface px-sm py-xs rounded-DEFAULT hover:bg-surface-variant transition-colors">
+                                    Assign to Camp
+                                </button>
+</td>
+</tr>
+<!-- Row 2 (Alternating BG) -->
+<tr class="bg-surface-bright border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<td class="px-md py-sm">
+<div class="flex items-center gap-sm">
+<div class="h-8 w-8 rounded-full bg-surface-variant text-on-surface flex items-center justify-center font-bold text-label-md shrink-0">
+                                        MR
+                                    </div>
+<div>
+<p class="font-medium">Michael Rodriguez</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">ID: V-8472</p>
+</div>
+</div>
+</td>
+<td class="px-md py-sm">
+<span class="inline-flex items-center gap-1 bg-surface-container px-2 py-1 rounded-sm font-label-sm text-label-sm text-on-surface">
+<span class="material-symbols-outlined text-[14px]">engineering</span> LOGISTICS
+                                </span>
+</td>
+<td class="px-md py-sm text-on-surface-variant">+1 (555) 832-1104</td>
+<td class="px-md py-sm">
+<span class="bg-surface-variant text-on-surface-variant font-label-sm text-label-sm px-2 py-1 rounded-sm uppercase tracking-wide inline-flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-on-surface-variant"></span> ASSIGNED
+                                </span>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-xs">Camp Alpha</p>
+</td>
+<td class="px-md py-sm text-right">
+<button class="font-label-md text-label-md text-on-surface-variant px-sm py-xs hover:text-primary transition-colors inline-flex items-center gap-xs">
+                                    Manage <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<td class="px-md py-sm">
+<div class="flex items-center gap-sm">
+<img alt="Sarah Connor" class="h-8 w-8 rounded-full object-cover shrink-0" data-alt="A small ID badge photo of a rescue worker in high-visibility gear, neutral expression, sharp lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_E1frJoN5KBnLR_M6a4RuWYwo784UsxpdPv6pOm9LgBYXzZbdiMf31szEK0k9rGHEW0JHRVvuUrCB1Wywj7PCJNvPXK56Uwwl_akUIXt72d5w3ImqgoYxn7ffCsEcn5KpNnzr5-CGLQ5iNEXjz7_pLRTt4L3rfuqAU71yPJdPkOKRwtBwu0WcQK0hySyNUPsiJyKVvCvi5dS8lRG5WjjJw70scXPy4VY_4GxB5fyk3e8MmufcTOi0XJLywsTcGtjEgj40AfqLF0pi"/>
+<div>
+<p class="font-medium">Sarah Connor</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">ID: V-1193</p>
+</div>
+</div>
+</td>
+<td class="px-md py-sm">
+<span class="inline-flex items-center gap-1 bg-surface-container px-2 py-1 rounded-sm font-label-sm text-label-sm text-on-surface">
+<span class="material-symbols-outlined text-[14px]">search</span> SEARCH &amp; RESCUE
+                                </span>
+</td>
+<td class="px-md py-sm text-on-surface-variant">+1 (555) 993-2011</td>
+<td class="px-md py-sm">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm px-2 py-1 rounded-sm uppercase tracking-wide inline-flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-fixed-variant"></span> AVAILABLE
+                                </span>
+</td>
+<td class="px-md py-sm text-right">
+<button class="font-label-md text-label-md border border-outline text-on-surface px-sm py-xs rounded-DEFAULT hover:bg-surface-variant transition-colors">
+                                    Assign to Camp
+                                </button>
+</td>
+</tr>
+<!-- Row 4 (Alternating BG) -->
+<tr class="bg-surface-bright hover:bg-surface-container-low transition-colors group">
+<td class="px-md py-sm">
+<div class="flex items-center gap-sm">
+<div class="h-8 w-8 rounded-full bg-surface-variant text-on-surface flex items-center justify-center font-bold text-label-md shrink-0">
+                                        DL
+                                    </div>
+<div>
+<p class="font-medium">David Lin</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">ID: V-5502</p>
+</div>
+</div>
+</td>
+<td class="px-md py-sm">
+<span class="inline-flex items-center gap-1 bg-surface-container px-2 py-1 rounded-sm font-label-sm text-label-sm text-on-surface">
+<span class="material-symbols-outlined text-[14px]">language</span> TRANSLATOR
+                                </span>
+</td>
+<td class="px-md py-sm text-on-surface-variant">+1 (555) 234-9908</td>
+<td class="px-md py-sm">
+<span class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm px-2 py-1 rounded-sm uppercase tracking-wide inline-flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-outline"></span> OFF-DUTY
+                                </span>
+</td>
+<td class="px-md py-sm text-right">
+<button class="font-label-md text-label-md text-on-surface-variant px-sm py-xs hover:text-primary transition-colors inline-flex items-center gap-xs opacity-50 cursor-not-allowed">
+                                    Assign to Camp
+                                </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination -->
+<div class="bg-surface-container-lowest border-t border-outline-variant p-sm px-md flex justify-between items-center mt-auto">
+<button class="text-on-surface-variant hover:text-primary font-label-md text-label-md flex items-center gap-xs transition-colors" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span> Previous
+                </button>
+<div class="flex gap-xs">
+<button class="w-8 h-8 flex items-center justify-center rounded-DEFAULT bg-primary text-on-primary font-label-md text-label-md">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-DEFAULT hover:bg-surface-container text-on-surface-variant font-label-md text-label-md transition-colors">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-DEFAULT hover:bg-surface-container text-on-surface-variant font-label-md text-label-md transition-colors">3</button>
+<span class="w-8 h-8 flex items-center justify-center text-on-surface-variant font-label-md text-label-md">...</span>
+<button class="w-8 h-8 flex items-center justify-center rounded-DEFAULT hover:bg-surface-container text-on-surface-variant font-label-md text-label-md transition-colors">60</button>
+</div>
+<button class="text-on-surface-variant hover:text-primary font-label-md text-label-md flex items-center gap-xs transition-colors">
+                    Next <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</main>
+</body></html>

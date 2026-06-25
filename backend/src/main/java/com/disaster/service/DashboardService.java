@@ -28,11 +28,11 @@ public class DashboardService {
     public DashboardSummary getSummary() {
         List<ShortageReport> urgent = shortageService.findUrgentShortages();
         return DashboardSummary.builder()
-                .totalDisasters(disasterRepository.count())
-                .activeCamps(campRepository.count())
-                .totalVictims(victimRepository.count())
+                .activeDisasters(disasterRepository.count())
+                .campCount(campRepository.count())
+                .victimCount(victimRepository.count())
                 .urgentShortageCount(urgent.size())
-                .urgentCamps(urgent)
+                .urgentShortages(urgent)
                 .build();
     }
 }

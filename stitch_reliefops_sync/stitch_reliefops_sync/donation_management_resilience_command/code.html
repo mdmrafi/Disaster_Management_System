@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Donation Management - Resilience Command</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#00210b",
+                        "on-primary-fixed": "#111c2d",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#410002",
+                        "secondary": "#bb0112",
+                        "outline-variant": "#c5c6cd",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-tertiary-container": "#559f67",
+                        "primary-fixed": "#d8e3fb",
+                        "outline": "#75777d",
+                        "background": "#f8f9ff",
+                        "tertiary-fixed-dim": "#8bd79b",
+                        "secondary-fixed-dim": "#ffb4ab",
+                        "on-primary-fixed-variant": "#3c475a",
+                        "on-primary-container": "#8590a6",
+                        "on-surface": "#0b1c30",
+                        "inverse-surface": "#213145",
+                        "surface-dim": "#cbdbf5",
+                        "on-tertiary-fixed-variant": "#005226",
+                        "tertiary": "#001907",
+                        "on-surface-variant": "#45474c",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#e5eeff",
+                        "surface-container-low": "#eff4ff",
+                        "error-container": "#ffdad6",
+                        "on-background": "#0b1c30",
+                        "inverse-on-surface": "#eaf1ff",
+                        "secondary-fixed": "#ffdad6",
+                        "on-secondary-container": "#fffbff",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#93000b",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#bcc7de",
+                        "secondary-container": "#e02928",
+                        "surface-container-high": "#dce9ff",
+                        "surface-bright": "#f8f9ff",
+                        "surface": "#f8f9ff",
+                        "surface-tint": "#545f73",
+                        "primary": "#091426",
+                        "primary-container": "#1e293b",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#a6f4b5",
+                        "primary-fixed-dim": "#bcc7de",
+                        "tertiary-container": "#003013"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "margin": "24px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "gutter": "16px",
+                        "2xl": "48px",
+                        "base": "4px",
+                        "sm": "8px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["JetBrains Mono"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["10px", { "lineHeight": "14px", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex antialiased">
+<!-- SideNavBar -->
+<nav class="hidden md:flex bg-surface dark:bg-primary border-r border-outline-variant dark:border-outline flat no shadows fixed left-0 top-0 bottom-0 w-[280px] z-40 flex-col pt-20 pb-md px-md">
+<div class="mb-xl px-sm flex items-center gap-md">
+<div class="w-10 h-10 rounded bg-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary" data-icon="shield">shield</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-black text-on-surface dark:text-primary-fixed tracking-tight">Command Center</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Disaster Operations</p>
+</div>
+</div>
+<ul class="flex flex-col gap-xs flex-1">
+<li class="px-sm py-sm flex items-center gap-md text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-primary-container transition-all cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</li>
+<li class="px-sm py-sm flex items-center gap-md text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-primary-container transition-all cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+<span class="font-label-md text-label-md">Disasters</span>
+</li>
+<li class="px-sm py-sm flex items-center gap-md text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-primary-container transition-all cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-label-md text-label-md">Affected Areas</span>
+</li>
+<li class="px-sm py-sm flex items-center gap-md text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-primary-container transition-all cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="home_work">home_work</span>
+<span class="font-label-md text-label-md">Relief Camps</span>
+</li>
+<li class="px-sm py-sm flex items-center gap-md text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-primary-container transition-all cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="person_remove">person_remove</span>
+<span class="font-label-md text-label-md">Victims</span>
+</li>
+<li class="px-sm py-sm flex items-center gap-md text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-primary-container transition-all cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-md text-label-md">Volunteers</span>
+</li>
+<li class="px-sm py-sm flex items-center gap-md text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-primary-container transition-all cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md">Resources</span>
+</li>
+<li class="px-sm py-sm flex items-center gap-md bg-surface-container-high dark:bg-primary-container text-primary dark:text-primary-fixed-dim font-bold rounded-lg cursor-pointer">
+<span class="material-symbols-outlined" data-icon="volunteer_activism">volunteer_activism</span>
+<span class="font-label-md text-label-md">Donations</span>
+</li>
+<li class="px-sm py-sm flex items-center gap-md text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-primary-container transition-all cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+<span class="font-label-md text-label-md">Allocations</span>
+</li>
+<li class="px-sm py-sm flex items-center gap-md text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-primary-container transition-all cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="assignment_late">assignment_late</span>
+<span class="font-label-md text-label-md">Shortages</span>
+</li>
+</ul>
+<div class="mt-auto pt-md border-t border-outline-variant flex flex-col gap-xs">
+<div class="px-sm py-sm flex items-center gap-md text-on-surface-variant hover:bg-surface-container transition-all cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+<span class="font-label-md text-label-md">Support</span>
+</div>
+<div class="px-sm py-sm flex items-center gap-md text-on-surface-variant hover:bg-surface-container transition-all cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</div>
+</div>
+</nav>
+<!-- TopNavBar (Mobile only for this layout context, but structured per JSON) -->
+<header class="md:hidden bg-surface-container-lowest dark:bg-primary border-b border-outline-variant dark:border-outline flat no shadows docked full-width top-0 fixed top-0 w-full z-50 flex justify-between items-center px-lg h-16">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed tracking-tight">
+            Resilience Command
+        </div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary cursor-pointer active:opacity-80 hover:bg-surface-container p-sm rounded-full transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer active:opacity-80 hover:bg-surface-container p-sm rounded-full transition-colors" data-icon="help">help</span>
+<span class="material-symbols-outlined text-primary cursor-pointer active:opacity-80 hover:bg-surface-container p-sm rounded-full transition-colors" data-icon="settings">settings</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-[280px] pt-20 md:pt-md px-margin md:px-xl pb-xl flex flex-col gap-margin max-w-[1440px] mx-auto w-full">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-md pb-md border-b border-outline-variant">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-background mb-xs">Donation Management</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Track, verify, and allocate incoming resources and funds.</p>
+</div>
+<button class="bg-primary text-on-primary font-label-md text-label-md font-bold py-sm px-md rounded flex items-center gap-sm hover:bg-primary-container transition-colors shadow-[0_2px_4px_rgba(0,0,0,0.1)]" onclick="document.getElementById('record-donation-modal').classList.remove('hidden')">
+<span class="material-symbols-outlined" data-icon="add" style="font-variation-settings: 'FILL' 1;">add</span>
+                Record New Donation
+            </button>
+</div>
+<!-- Quick Stats Bento -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-md">
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-md">
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-sm">Total Received (30D)</div>
+<div class="font-headline-lg text-headline-lg text-on-surface">1,245</div>
+<div class="font-label-sm text-label-sm text-on-tertiary-container mt-xs flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]" data-icon="trending_up">trending_up</span> +12%
+                </div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-md">
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-sm">Pending Verification</div>
+<div class="font-headline-lg text-headline-lg text-on-surface">84</div>
+<div class="font-label-sm text-label-sm text-secondary mt-xs flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]" data-icon="pending_actions">pending_actions</span> Action Required
+                </div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-md">
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-sm">Top Resource Need</div>
+<div class="font-headline-md text-headline-md text-on-surface mt-xs">Medical Kits</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-sm">Req: 5,000 | Rcv: 1,200</div>
+</div>
+<div class="bg-primary text-on-primary rounded p-md flex flex-col justify-between">
+<div class="font-label-sm text-label-sm text-primary-fixed-dim uppercase">High Priority Linked Disaster</div>
+<div>
+<div class="font-headline-md text-headline-md text-on-primary">Coastal Flooding Zn-4</div>
+<div class="font-label-sm text-label-sm text-primary-fixed-dim mt-xs">Active Routing</div>
+</div>
+</div>
+</div>
+<!-- Data Table Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded flex flex-col flex-1 overflow-hidden">
+<div class="bg-surface-bright border-b border-outline-variant p-md flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Recent Donations</h3>
+<div class="flex gap-sm">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline text-[20px]" data-icon="search">search</span>
+<input class="pl-[36px] pr-md py-xs border border-outline-variant rounded bg-surface font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary w-64" placeholder="Search donors or resources..." type="text"/>
+</div>
+<button class="border border-outline-variant text-on-surface font-label-md text-label-md py-xs px-sm rounded flex items-center gap-xs hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="filter_list">filter_list</span> Filter
+                    </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant bg-surface-bright">
+<th class="p-sm font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider whitespace-nowrap">Donor Name</th>
+<th class="p-sm font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider whitespace-nowrap">Date</th>
+<th class="p-sm font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider whitespace-nowrap">Linked Disaster</th>
+<th class="p-sm font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider whitespace-nowrap">Resource Type</th>
+<th class="p-sm font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider text-right whitespace-nowrap">Quantity</th>
+<th class="p-sm font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider whitespace-nowrap text-center">Status</th>
+<th class="p-sm w-10"></th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="p-sm font-semibold">Global Relief Fund</td>
+<td class="p-sm text-on-surface-variant">2023-10-27 14:30</td>
+<td class="p-sm">Coastal Flooding Zn-4</td>
+<td class="p-sm">Monetary (USD)</td>
+<td class="p-sm text-right font-label-md text-label-md">$500,000</td>
+<td class="p-sm text-center">
+<span class="inline-block bg-[#eaf1ff] text-[#005226] font-label-sm text-label-sm px-2 py-1 rounded">VERIFIED</span>
+</td>
+<td class="p-sm text-center text-outline hover:text-primary cursor-pointer"><span class="material-symbols-outlined text-[20px]" data-icon="more_vert">more_vert</span></td>
+</tr>
+<tr class="bg-surface-bright border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="p-sm font-semibold">MedCorp Logistics</td>
+<td class="p-sm text-on-surface-variant">2023-10-27 11:15</td>
+<td class="p-sm">Earthquake Eq-Alpha</td>
+<td class="p-sm">Medical Kits</td>
+<td class="p-sm text-right font-label-md text-label-md">2,500 units</td>
+<td class="p-sm text-center">
+<span class="inline-block bg-[#ffdad6] text-[#93000a] font-label-sm text-label-sm px-2 py-1 rounded">PENDING TRANSIT</span>
+</td>
+<td class="p-sm text-center text-outline hover:text-primary cursor-pointer"><span class="material-symbols-outlined text-[20px]" data-icon="more_vert">more_vert</span></td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="p-sm font-semibold">Local Community Drive (Sector 7)</td>
+<td class="p-sm text-on-surface-variant">2023-10-26 09:00</td>
+<td class="p-sm">Wildfire Wf-09</td>
+<td class="p-sm">Non-perishable Food</td>
+<td class="p-sm text-right font-label-md text-label-md">850 lbs</td>
+<td class="p-sm text-center">
+<span class="inline-block bg-[#eaf1ff] text-[#005226] font-label-sm text-label-sm px-2 py-1 rounded">RECEIVED</span>
+</td>
+<td class="p-sm text-center text-outline hover:text-primary cursor-pointer"><span class="material-symbols-outlined text-[20px]" data-icon="more_vert">more_vert</span></td>
+</tr>
+<tr class="bg-surface-bright border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="p-sm font-semibold">AquaPure Systems</td>
+<td class="p-sm text-on-surface-variant">2023-10-25 16:45</td>
+<td class="p-sm">Coastal Flooding Zn-4</td>
+<td class="p-sm">Water Filters</td>
+<td class="p-sm text-right font-label-md text-label-md">1,000 units</td>
+<td class="p-sm text-center">
+<span class="inline-block bg-[#eff4ff] text-[#45474c] font-label-sm text-label-sm px-2 py-1 rounded">PROCESSING</span>
+</td>
+<td class="p-sm text-center text-outline hover:text-primary cursor-pointer"><span class="material-symbols-outlined text-[20px]" data-icon="more_vert">more_vert</span></td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="p-sm font-semibold">Anonymous Donor</td>
+<td class="p-sm text-on-surface-variant">2023-10-25 10:20</td>
+<td class="p-sm">Unallocated</td>
+<td class="p-sm">Monetary (USD)</td>
+<td class="p-sm text-right font-label-md text-label-md">$10,000</td>
+<td class="p-sm text-center">
+<span class="inline-block bg-[#eaf1ff] text-[#005226] font-label-sm text-label-sm px-2 py-1 rounded">VERIFIED</span>
+</td>
+<td class="p-sm text-center text-outline hover:text-primary cursor-pointer"><span class="material-symbols-outlined text-[20px]" data-icon="more_vert">more_vert</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-sm border-t border-outline-variant flex justify-between items-center bg-surface-bright">
+<div class="font-label-sm text-label-sm text-on-surface-variant">Showing 1 to 5 of 1,245 entries</div>
+<div class="flex gap-xs">
+<button class="px-sm py-xs border border-outline-variant rounded text-on-surface-variant hover:bg-surface-container disabled:opacity-50"><span class="material-symbols-outlined text-[16px]" data-icon="chevron_left">chevron_left</span></button>
+<button class="px-sm py-xs border border-outline-variant rounded bg-surface-container text-on-surface font-label-md">1</button>
+<button class="px-sm py-xs border border-outline-variant rounded text-on-surface-variant hover:bg-surface-container font-label-md">2</button>
+<button class="px-sm py-xs border border-outline-variant rounded text-on-surface-variant hover:bg-surface-container font-label-md">3</button>
+<span class="px-sm py-xs text-on-surface-variant">...</span>
+<button class="px-sm py-xs border border-outline-variant rounded text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span></button>
+</div>
+</div>
+</div>
+</main>
+<!-- Record Donation Modal -->
+<div class="hidden fixed inset-0 z-[100] flex items-center justify-center" id="record-donation-modal">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-primary/40 backdrop-blur-[4px]" onclick="document.getElementById('record-donation-modal').classList.add('hidden')"></div>
+<!-- Modal Content -->
+<div class="relative bg-surface-container-lowest rounded-lg border border-outline shadow-xl w-full max-w-2xl mx-md overflow-hidden flex flex-col max-h-[921px]">
+<div class="bg-surface-bright border-b border-outline-variant p-md flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface font-semibold">Record New Donation</h3>
+<button class="text-outline hover:text-on-surface transition-colors p-xs rounded hover:bg-surface-variant" onclick="document.getElementById('record-donation-modal').classList.add('hidden')">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<div class="p-margin overflow-y-auto flex-1">
+<form class="flex flex-col gap-md">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold">Donor Entity / Name *</label>
+<input class="w-full border border-outline-variant rounded p-sm font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary bg-surface" placeholder="e.g. Red Cross, John Doe" type="text"/>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold">Donor Contact / Email</label>
+<input class="w-full border border-outline-variant rounded p-sm font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary bg-surface" placeholder="contact@donor.org" type="email"/>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold">Target Disaster (Optional)</label>
+<select class="w-full border border-outline-variant rounded p-sm font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary bg-surface">
+<option value="">-- General Fund / Unallocated --</option>
+<option value="coastal_flooding">Coastal Flooding Zn-4</option>
+<option value="earthquake_alpha">Earthquake Eq-Alpha</option>
+<option value="wildfire_09">Wildfire Wf-09</option>
+</select>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Leave blank to route to general resource pool.</span>
+</div>
+<div class="border-t border-outline-variant pt-md grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold">Resource Category *</label>
+<select class="w-full border border-outline-variant rounded p-sm font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary bg-surface">
+<option value="monetary">Monetary Funds</option>
+<option value="medical">Medical Supplies</option>
+<option value="food">Food &amp; Water</option>
+<option value="shelter">Shelter Materials</option>
+<option value="equipment">Heavy Equipment</option>
+</select>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold">Specific Item / Description</label>
+<input class="w-full border border-outline-variant rounded p-sm font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary bg-surface" placeholder="e.g. USD, Tents, IV Fluids" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold">Quantity / Amount *</label>
+<input class="w-full border border-outline-variant rounded p-sm font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary bg-surface" placeholder="0.00" type="number"/>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold">Unit of Measure</label>
+<input class="w-full border border-outline-variant rounded p-sm font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary bg-surface" placeholder="e.g. $, boxes, lbs, units" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold">Notes / Logistics</label>
+<textarea class="w-full border border-outline-variant rounded p-sm font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary bg-surface resize-none" placeholder="ETA, shipping details, restrictions..." rows="3"></textarea>
+</div>
+</form>
+</div>
+<div class="p-md border-t border-outline-variant bg-surface-bright flex justify-end gap-sm">
+<button class="px-md py-sm border border-outline text-on-surface font-label-md text-label-md font-semibold rounded hover:bg-surface-variant transition-colors" onclick="document.getElementById('record-donation-modal').classList.add('hidden')">Cancel</button>
+<button class="px-md py-sm bg-primary text-on-primary font-label-md text-label-md font-bold rounded hover:bg-primary-container transition-colors shadow-[0_2px_4px_rgba(0,0,0,0.1)]">Save Donation Record</button>
+</div>
+</div>
+</div>
+</body></html>
