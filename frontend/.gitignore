@@ -10,6 +10,7 @@ dist-ssr
 
 # Editor
 .vscode/*
+.puku/*
 !.vscode/extensions.json
 .idea
 .DS_Store

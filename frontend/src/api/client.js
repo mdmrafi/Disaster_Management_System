@@ -4,12 +4,17 @@ import { getToken } from '../auth/auth.js';
 /**
  * Shared Axios instance.
  *
- * Vite's dev server proxies /api/* to http://localhost:8080, so we use
- * a relative baseURL in development. In production builds, the same
- * relative path resolves against the same origin serving the SPA.
+ * Vite's dev server proxies /api/* to http://localhost:8080, so the
+ * default baseURL '/api' works out of the box for `npm run dev`. In
+ * production builds we read VITE_API_URL (set in render.yaml for the
+ * Render static site) so the SPA talks to the deployed Spring Boot
+ * service. If VITE_API_URL is unset, we fall back to '/api' which works
+ * for setups where the API is reverse-proxied on the same origin.
  */
+const baseURL = import.meta.env.VITE_API_URL || '/api';
+
 const client = axios.create({
-  baseURL: '/api',
+  baseURL,
   headers: { 'Content-Type': 'application/json' },
   timeout: 15000,
 });

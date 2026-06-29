@@ -1,0 +1,8 @@
+# =========================================================
+# Render static-site rewrites
+#
+# Send every unknown path to index.html so client-side routes
+# (e.g. /disasters, /camps) survive a hard refresh. /api/* is
+# served by the backend service and must NOT be intercepted.
+# =========================================================
+/*    /index.html   200
