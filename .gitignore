@@ -28,3 +28,7 @@ Thumbs.db
 .vscode/
 .idea/
 *.iml
+# Vercel
+.vercel/
+vercel-cli-debug.log
+
