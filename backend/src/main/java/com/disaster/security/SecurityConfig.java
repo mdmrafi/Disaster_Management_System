@@ -16,7 +16,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
  * Stateless JWT security.
  *
  * <ul>
- *   <li>{@code /api/auth/login} and {@code /error} are public.</li>
+ *   <li>{@code /api/auth/login}, {@code /api/health} and {@code /error} are public.</li>
  *   <li>Everything else under {@code /api/**} requires a valid bearer token.</li>
  *   <li>CSRF is disabled (no browser-form auth).</li>
  *   <li>CORS delegates to the existing {@link CorsConfigurationSource} bean.</li>
@@ -45,7 +45,7 @@ public class SecurityConfig {
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .exceptionHandling(ex -> ex.authenticationEntryPoint(entryPoint))
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/auth/login", "/error").permitAll()
+                    .requestMatchers("/api/auth/login", "/api/health", "/error").permitAll()
                     .anyRequest().authenticated())
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

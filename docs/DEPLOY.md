@@ -1,85 +1,116 @@
-# Deploying to Render
+# Deploying
 
-This project is configured to deploy end-to-end on [Render](https://render.com)
-with a single Blueprint. The Blueprint provisions a managed MySQL database,
-a Spring Boot API service, and a React/Vite static frontend, and wires them
-together via environment variables.
+The backend deploys to [Render](https://render.com) as a Docker web service.
+The frontend can go either to Render (as a static site, included in the same
+Blueprint) or to [Vercel](https://vercel.com) via `vercel.json`. Pick one.
+
+## 0. About the database
+
+**Render does not offer a managed MySQL database** — its managed databases are
+PostgreSQL only. This app is MySQL-specific (`mysql-connector-j`,
+`MySQLDialect`, and `db/*.sql` use `AUTO_INCREMENT`, `ENUM`, `ENGINE=InnoDB`
+and `DELIMITER` triggers), so the database has to be hosted elsewhere.
+
+Any MySQL 8 host works. Free/low-cost options: Aiven, Railway, Clever Cloud,
+PlanetScale. Create a database named `disaster_db` and keep the host, port,
+user and password — you'll paste them into Render in step 3.
 
 ## 1. Prerequisites
 
 - A GitHub account with this repo pushed (default branch `main`).
 - A Render account (free tier is enough for a smoke test).
-- `openssl` locally to generate a JWT secret (any base64 tool works).
+- A MySQL 8 database (see step 0).
+- `mysql` client and `openssl` locally.
 
-## 2. One-time setup
+## 2. Load the schema
 
-1. Generate a JWT signing secret (base64-encoded, ≥64 bytes):
-   ```bash
-   openssl rand -base64 64
-   ```
-   Keep this — you'll paste it into Render in step 4.
+Run **all four** SQL files, in order. The migrations are not optional:
+`db/migrations/002_redesign.sql` creates the `app_user` table that
+`DataInitializer` reads at startup. Skip it and the backend crashes on boot
+with `Table 'disaster_db.app_user' doesn't exist` — which on Render looks
+like a failed deploy immediately after a successful build.
 
-2. Apply the database schema to the Render database **after** the DB
-   is created (Render exposes a *External Connection String* for MySQL):
-   ```bash
-   # from the repo root
-   Get-Content db\schema.sql, db\triggers.sql, db\sample_data.sql |
-     mysql -h <RENDER_DB_HOST> -P 3306 -u <USER> -p disaster_db
-   ```
-   Use the **External** host/credentials from the Render dashboard for the
-   `disaster-db` instance — internal hostnames only resolve from within
-   Render.
+```bash
+# from the repo root
+./db/load-all.sh -h <MYSQL_HOST> -P <MYSQL_PORT> -u <USER> -p '<PASSWORD>' -D disaster_db
+```
+
+That script runs `schema.sql`, `triggers.sql`, `sample_data.sql`, then
+everything under `db/migrations/` in lexical order, and prints `SHOW TABLES;`
+at the end. Confirm `app_user` is in the list before moving on.
+
+On Windows, `db/run-migrations.ps1` does the migrations half of the same job.
 
 ## 3. Create the Blueprint
 
-1. In Render, click **New → Blueprint**.
-2. Connect your GitHub account and pick this repo.
-3. Render reads `render.yaml` at the repo root and proposes three resources:
-   - `disaster-db` (MySQL)
+1. Generate a JWT signing secret (base64, ≥64 bytes) and keep it handy:
+   ```bash
+   openssl rand -base64 64
+   ```
+2. In Render, click **New → Blueprint** and pick this repo.
+3. Render reads `render.yaml` and proposes two resources:
    - `disaster-api` (Docker web service, rootDir `backend`)
    - `disaster-frontend` (static site, rootDir `frontend`)
-4. Click **Apply**. Render starts creating all three.
+4. Render prompts for every `sync: false` variable during creation. Fill in:
 
-## 4. Set the secrets
+   | Key                          | Value                                                                                      |
+   |------------------------------|--------------------------------------------------------------------------------------------|
+   | `SPRING_DATASOURCE_URL`      | `jdbc:mysql://HOST:PORT/disaster_db?useSSL=true&serverTimezone=UTC&allowPublicKeyRetrieval=true` |
+   | `SPRING_DATASOURCE_USERNAME` | your MySQL user                                                                              |
+   | `SPRING_DATASOURCE_PASSWORD` | your MySQL password                                                                          |
+   | `SECURITY_JWT_SECRET`        | the base64 string from step 1                                                                |
+   | `APP_CORS_ALLOWED_ORIGINS`   | the exact origin the SPA is served from, e.g. `https://disaster-frontend.onrender.com`      |
 
-After the first deploy, set these two values in the Render dashboard:
+5. Click **Apply**.
 
-| Service              | Key                  | Value                                                            |
-|----------------------|----------------------|------------------------------------------------------------------|
-| `disaster-api`       | `SECURITY_JWT_SECRET`| The base64 string you generated in step 1.                       |
-| `disaster-api`       | `APP_CORS_ALLOWED_ORIGINS` | `https://disaster-frontend.onrender.com` (replace with your custom domain if you have one). |
+`APP_CORS_ALLOWED_ORIGINS` must match the browser origin exactly — scheme and
+host, no trailing slash. If you host the frontend on Vercel, use the Vercel
+URL here instead. Multiple origins are comma-separated.
 
-Then redeploy `disaster-api` so it picks up the new env vars.
+## 4. Deploying the frontend to Vercel instead
 
-> The Blueprint leaves `VITE_API_URL` pointing at `https://disaster-api.onrender.com/api`.
-> If you rename the backend service, update both `render.yaml` and the
-> Render env var and redeploy the frontend.
+`vercel.json` at the repo root builds `frontend/` and serves `frontend/dist`
+with an SPA fallback rewrite. Import the repo in Vercel, set `VITE_API_URL`
+to `https://disaster-api.onrender.com/api` as a build-time environment
+variable, and deploy. Then set `APP_CORS_ALLOWED_ORIGINS` on `disaster-api`
+to the Vercel URL and redeploy the backend.
+
+If you go this route, you can delete the `disaster-frontend` service from
+`render.yaml` so you aren't building the SPA twice.
 
 ## 5. Verify
 
-- API health check: `curl https://disaster-api.onrender.com/api/health`
-  (or whatever endpoint your `HealthController` exposes — the Blueprint
-  uses `/api/health` for the health-check path).
-- SPA: open `https://disaster-frontend.onrender.com` and log in.
+```bash
+# 200 {"status":"UP"} — this is what Render's health check polls
+curl https://disaster-api.onrender.com/api/health
 
-## 6. Local development after these changes
+# 200 with a token
+curl -X POST https://disaster-api.onrender.com/api/auth/login \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"admin@resilience.local","password":"admin123"}'
+```
 
-Nothing changes for local dev:
+Then open the SPA and log in. Seed credentials are
+`admin@resilience.local` / `admin123` — **change the password immediately on
+any deployment that is reachable from the internet.**
 
-- Backend still reads `backend/src/main/resources/application.properties`
-  for defaults; env vars override them if set.
-- Frontend still uses Vite's proxy for `/api/*`. Leave `VITE_API_URL`
-  unset locally.
+If the health check returns 401 rather than 200, the deployed image predates
+`HealthController`; redeploy from the current `main`.
 
-## 7. What was added in this change
+## 6. Local development
 
-- `render.yaml` — single Blueprint with DB + API + frontend.
-- `backend/Dockerfile` + `backend/.dockerignore` — multi-stage Maven build.
-- `backend/src/main/resources/application.properties(.example)` —
-  every value now reads from an env var with a sensible default.
-- `backend/.../config/WebConfig.java` — allowed origins driven by
-  `app.cors.allowed-origins` (env: `APP_CORS_ALLOWED_ORIGINS`).
-- `frontend/src/api/client.js` — uses `VITE_API_URL` if set, else `/api`.
-- `frontend/public/_redirects` — SPA fallback so client routes survive
-  a hard refresh.
-- `frontend/.env.example` — documentation of the env var.
+Unchanged:
+
+- Backend reads `backend/src/main/resources/application.properties` for
+  defaults; env vars override them if set.
+- Frontend uses Vite's proxy for `/api/*`. Leave `VITE_API_URL` unset.
+
+## 7. Known gaps
+
+- `spring.jpa.hibernate.ddl-auto=none`, so the schema is never created by the
+  app. Step 2 is mandatory on every fresh database.
+- `application.properties` is committed and carries a working local MySQL
+  password and a fallback JWT secret. They are overridden in production by
+  the env vars above, but the fallback secret is public — treat any token
+  signed with it as forgeable, and never deploy without setting
+  `SECURITY_JWT_SECRET`. Rotate the committed values.
