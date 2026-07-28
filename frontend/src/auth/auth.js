@@ -10,6 +10,8 @@
  *   auth.getUser()     -> { email, displayName, role } | null
  */
 
+import api from '../api/client.js';
+
 const TOKEN_KEY = 'dm.token';
 const USER_KEY  = 'dm.user';
 
@@ -37,37 +39,23 @@ export function subscribe(fn) {
 }
 
 export async function login(email, password) {
-  const res = await fetch('/api/auth/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
-  });
-  if (!res.ok) {
-    // Try to extract the standard error envelope
-    let msg = `Login failed (${res.status})`;
-    try {
-      const body = await res.json();
-      if (body?.message) msg = body.message;
-    } catch { /* ignore */ }
-    throw new Error(msg);
-  }
-  const body = await res.json();
-  if (!body?.token) throw new Error('Login response missing token');
-  try {
-    localStorage.setItem(TOKEN_KEY, body.token);
-    const u = body.user;
-    if (u && (u.email || u.displayName || u.role)) {
-      localStorage.setItem(USER_KEY, JSON.stringify({
-        id: u.id,
-        email: u.email,
-        displayName: u.displayName,
-        role: u.role,
-      }));
-    }
-  } catch { /* storage unavailable — token will be lost on reload */ }
-  notify();
-  return body;
-}
+   const { data } = await api.post('/auth/login', { email, password });
+   if (!data?.token) throw new Error('Login response missing token');
+   try {
+     localStorage.setItem(TOKEN_KEY, data.token);
+     const u = data.user;
+     if (u && (u.email || u.displayName || u.role)) {
+       localStorage.setItem(USER_KEY, JSON.stringify({
+         id: u.id,
+         email: u.email,
+         displayName: u.displayName,
+         role: u.role,
+       }));
+     }
+   } catch { /* storage unavailable — token will be lost on reload */ }
+   notify();
+   return data;
+ }
 
 export function logout() {
   try { localStorage.removeItem(TOKEN_KEY); } catch { /* noop */ }
