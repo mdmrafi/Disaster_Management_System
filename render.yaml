@@ -44,7 +44,7 @@ services:
       - key: SECURITY_JWT_EXPIRATION_MS
         value: "86400000"
       - key: APP_CORS_ALLOWED_ORIGINS
-        value: https://disaster-management-system-git-main-md-mashrafis-projects.vercel.app,https://disaster-management-system-tau.vercel.app,https://disaster-frontend.onrender.com
+        value: https://disaster-management-system-git-main-md-mashrafis-projects.vercel.app,https://disaster-management-system-tau.vercel.app,https://disaster-frontend.onrender.com,https://*.vercel.app
 
   # ---- Frontend: React/Vite Static Site ----------------------
   - type: web
