@@ -8,9 +8,12 @@ import com.disaster.repository.UserRepository;
 import com.disaster.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -22,6 +25,11 @@ public class AuthController {
     public AuthController(AuthService auth, UserRepository users) {
         this.auth = auth;
         this.users = users;
+    }
+
+    @GetMapping("/health")
+    public ResponseEntity<Map<String, String>> health() {
+        return ResponseEntity.ok(Map.of("status", "ok"));
     }
 
     @PostMapping("/login")
