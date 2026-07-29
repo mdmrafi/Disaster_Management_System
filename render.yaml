@@ -54,6 +54,10 @@ services:
     plan: free
     buildCommand: npm ci && npm run build
     staticPublishPath: ./dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
         value: https://disaster-api.onrender.com/api
