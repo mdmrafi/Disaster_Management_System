@@ -8,9 +8,10 @@
 spring.application.name=disaster-management
 
 # --- Datasource (MySQL) -----------------------------------
-# All values can be overridden via environment variables, which is how
-# Render injects the database connection for `disaster-api` (see render.yaml).
-spring.datasource.url=${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/disaster_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+# URL is assembled from three pieces so a stray dashboard SPRING_DATASOURCE_URL
+# can't hijack the connection. On Render the three pieces are injected by
+# render.yaml; locally they default to the standard localhost setup.
+spring.datasource.url=jdbc:mysql://${SPRING_DATASOURCE_HOST:localhost}:${SPRING_DATASOURCE_PORT:3306}/${SPRING_DATASOURCE_DB:disaster_db}?useSSL=true&requireSSL=true&serverTimezone=UTC&allowPublicKeyRetrieval=true
 spring.datasource.username=${SPRING_DATASOURCE_USERNAME:YOUR_MYSQL_USERNAME}
 spring.datasource.password=${SPRING_DATASOURCE_PASSWORD:YOUR_MYSQL_PASSWORD}
 

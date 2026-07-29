@@ -31,8 +31,12 @@ services:
         value: prod
       - key: PORT
         value: "10000"
-      - key: SPRING_DATASOURCE_URL
-        value: jdbc:mysql://${disaster-db.host}:3306/${disaster-db.database}?useSSL=true&requireSSL=true&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - key: SPRING_DATASOURCE_HOST
+        value: ${disaster-db.host}
+      - key: SPRING_DATASOURCE_PORT
+        value: "3306"
+      - key: SPRING_DATASOURCE_DB
+        value: ${disaster-db.database}
       - key: SPRING_DATASOURCE_USERNAME
         value: ${disaster-db.username}
       - key: SPRING_DATASOURCE_PASSWORD
